@@ -98,9 +98,32 @@ app.post("/youtube/add", (request, response)=>{
     console.log(request.method)
     console.log(request.body)
     //add or push the value in request.body to videos array
-    videos.push(request.body)
+    //videos.push(request.body)
     //send back the updated videos array as response
-    response.send(videos)
+    //response.send(videos)
+    console.log("before creating instance of programming model")
+    //create instance of programming model and populate
+    //it with values from request body
+    let newVideo = new prog({
+        id:request.body.id,
+        title:request.body.title,
+        videoid:request.body.videoid
+    })
+    console.log("after creating instance of programming model")
+    console.log(newVideo)
+    //save the newVideo 
+    newVideo.save()
+        .then((data)=>{
+            console.log(response)
+            response.json({
+               "status":"success",
+               "data":data
+            })
+        })
+        .catch((error)=>{
+            response.json(error)
+        })
+
 })
 
 //start/fire api at given port
